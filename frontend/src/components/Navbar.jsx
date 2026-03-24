@@ -24,7 +24,7 @@ const Navbar = () => {
           </li>
           <li className="absolute min-md:right-4 max-sm:static">
             <button className="bg-[gray] w-16 rounded-sm">
-              <NavLink to="/login">Log Out</NavLink>
+              <NavLink to="/login">Log in</NavLink>
             </button>
           </li>
           <li className="absolute min-md:right-30 max-sm:static">
@@ -60,7 +60,7 @@ const Navbar = () => {
           </li>
           <li>
             <button className="bg-[gray] w-14 rounded-sm max-md:text-sm">
-              <NavLink to="/login">Log Out</NavLink>
+              <NavLink to="/login">Log In</NavLink>
             </button>
           </li>
         </ul>

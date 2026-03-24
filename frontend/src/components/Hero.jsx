@@ -6,7 +6,7 @@ const Hero = () => {
   return (
     <div className="flex mt-4 max-sm:mt-0 flex-row max-sm:flex-col md:gap-5 md:ml-60 md:mr-60">
       <img src={hero2} className="md:h-80 md:w-180 md:rounded-md" alt="" />
-      <span>
+      <span className="max-sm:text-[13px]">
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime iusto,
         molestiae voluptate laborum numquam explicabo natus qui tempora optio
         vitae reprehenderit in rem odio! Dolore quibusdam totam itaque
