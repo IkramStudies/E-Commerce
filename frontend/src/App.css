@@ -3,3 +3,7 @@
 ul li {
   z-index: 1;
 }
+input {
+  padding-left: 6px;
+  border-radius: 2px;
+}

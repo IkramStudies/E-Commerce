@@ -9,6 +9,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import VerifyEmail from "./pages/VerifyEmail";
 import "./App.css";
 
 function App() {
@@ -16,15 +17,16 @@ function App() {
   return (
     <>
       <div>
-        {location.pathname != "/login" && location.pathname != "/register" && (
-          <Navbar />
-        )}
+        {location.pathname != "/login" &&
+          location.pathname != "/register" &&
+          location.pathname != "/verify-email" && <Navbar />}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/verify-email" element={<VerifyEmail />}></Route>
         </Routes>
       </div>
     </>

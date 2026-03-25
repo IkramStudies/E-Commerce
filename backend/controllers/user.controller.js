@@ -15,7 +15,13 @@ export const registerUser = async (req, res) => {
         message: "All fields are required",
       });
     }
-
+    // 2. Check password length
+    if (password.length < 6 && password.length != 6) {
+      return res.status(400).json({
+        status: false,
+        message: "Password length should be more than or equal to 6 characters",
+      });
+    }
     // 2. Check password match
     if (password !== confirmPassword) {
       // if ('1234abcd' != '1234abcd') , false
@@ -52,7 +58,7 @@ export const registerUser = async (req, res) => {
     // 6. Send response (avoid sending password ideally)
     res.status(201).json({
       status: true,
-      message: "Registration successful",
+      message: "User has registered",
       data: {
         name: newUser.name,
         email: newUser.email,
