@@ -10,6 +10,7 @@ const Register = () => {
   const [confirmPassword, setPassword1] = useState("");
   const [message, setMessage] = useState("");
   const [isOpen, setOpen] = useState(false);
+  const [isOpen1, setOpen1] = useState(false);
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,7 +29,9 @@ const Register = () => {
         setMessage(data.message);
       }
       if (data.status) {
-        navigate("/verify-email");
+        navigate("/verify-email", {
+          state: { email },
+        });
       } else {
         setMessage(data.message);
       }
@@ -37,14 +40,13 @@ const Register = () => {
       }, 4000);
     } catch (error) {
       console.log("Error sending data:", error);
-      setRegistered(data.status);
       // setError(data.message);
       console.log(error);
     }
   };
   return (
     <div>
-      <p className="text-center pb-5 pt-4">Register Page</p>
+      <p className="text-center pb-5 pt-14">Register Page</p>
       <div className="form flex justify-center h-[40vh] max-sm:h-[40vh] items-center">
         <form onSubmit={handleSubmit}>
           <label htmlFor="">Enter your name</label>
@@ -76,8 +78,8 @@ const Register = () => {
               type={isOpen ? "text" : "password"}
               placeholder="Enter your password"
               className="border mt-1 w-[210px]"
-              onChange={(e) => setPassword1(e.target.value)}
-              value={confirmPassword}
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
               required={true}
             />
             <Eye
@@ -89,7 +91,7 @@ const Register = () => {
           <br />
           <div className="relative">
             <input
-              type={isOpen ? "text" : "password"}
+              type={isOpen1 ? "text" : "password"}
               placeholder="Confirm your password"
               className="border mt-1 w-[210px]"
               onChange={(e) => setPassword1(e.target.value)}
@@ -98,7 +100,7 @@ const Register = () => {
             />
             <Eye
               className="absolute top-[4px] right-[6px] "
-              onClick={() => setOpen(!isOpen)}
+              onClick={() => setOpen1(!isOpen1)}
             />
           </div>
           <br />

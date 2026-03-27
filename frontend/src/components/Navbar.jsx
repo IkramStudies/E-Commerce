@@ -4,8 +4,9 @@ import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
-const Navbar = () => {
+const Navbar = ({ loggedIn }) => {
   const [isOpen, setOpen] = useState(false);
+  console.log(loggedIn);
   return (
     <div>
       <nav>
@@ -23,9 +24,20 @@ const Navbar = () => {
             <NavLink to="/contact">Contact</NavLink>
           </li>
           <li className="absolute min-md:right-4 max-sm:static">
-            <button className="bg-[gray] w-16 rounded-sm">
-              <NavLink to="/login">Log in</NavLink>
-            </button>
+            {loggedIn ? (
+              <button className="bg-[gray] w-16 rounded-sm max-md:text-sm">
+                <NavLink to="/login">Log Out</NavLink>
+              </button>
+            ) : (
+              <button>
+                <NavLink
+                  to="/login"
+                  className="bg-[gray] w-16 rounded-sm max-md:text-sm"
+                >
+                  Log In
+                </NavLink>
+              </button>
+            )}
           </li>
           <li className="absolute min-md:right-30 max-sm:static">
             <FontAwesomeIcon icon={faShoppingCart} />
@@ -59,9 +71,20 @@ const Navbar = () => {
             </NavLink>
           </li>
           <li>
-            <button className="bg-[gray] w-14 rounded-sm max-md:text-sm">
-              <NavLink to="/login">Log In</NavLink>
-            </button>
+            {loggedIn ? (
+              <button className="bg-[gray] w-14 rounded-sm max-md:text-sm">
+                <NavLink to="/login">Log Out</NavLink>
+              </button>
+            ) : (
+              <button>
+                <NavLink
+                  to="/login"
+                  className="bg-[gray] w-14 rounded-sm max-md:text-sm"
+                >
+                  Log In
+                </NavLink>
+              </button>
+            )}
           </li>
         </ul>
       </nav>

@@ -2,23 +2,47 @@ import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye } from "lucide-react";
-const Login = () => {
+const Login = ({ setloggedIn }) => {
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isOpen, setOpen] = useState(false);
   const navigate = useNavigate();
+  const login = async (e) => {
+    e.preventDefault();
+    try {
+      const payload = { email, password };
+      const data = await fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: {
+          "content-type": "application/JSON",
+        },
+        body: JSON.stringify(payload),
+      });
+      const response = await data.json();
+      console.log(response.message);
+      setloggedIn(response.status);
+      if (response.status) {
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
     <div className="">
       <h1 className="text-center absolute top-[18%] left-[46%] max-sm:left-[40%]">
         Login Page
       </h1>
       <div className="form flex justify-center h-[80vh] items-center">
-        <form action="" onSubmit={(e) => e.preventDefault()}>
+        <form action="" onSubmit={login}>
           <label htmlFor="">Enter Email</label>
           <br></br>
           <input
             type="text"
             className="border mt-1"
             placeholder="Enter your email"
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
           />
           <br></br>
           <label htmlFor="">Enter your Password</label>
@@ -28,6 +52,8 @@ const Login = () => {
               type={isOpen ? "text" : "password"}
               className="border mt-1"
               placeholder="Enter your password"
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
             />
             <Eye
               className="absolute top-[4px] right-[6px]"

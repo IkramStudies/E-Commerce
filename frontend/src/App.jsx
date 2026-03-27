@@ -14,17 +14,20 @@ import "./App.css";
 
 function App() {
   const location = useLocation();
+  const [loggedIn, setloggedIn] = useState(false);
   return (
     <>
       <div>
         {location.pathname != "/login" &&
           location.pathname != "/register" &&
-          location.pathname != "/verify-email" && <Navbar />}
+          location.pathname != "/verify-email" && (
+            <Navbar loggedIn={loggedIn} />
+          )}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login setloggedIn={setloggedIn} />} />
           <Route path="/register" element={<Register />} />
           <Route path="/verify-email" element={<VerifyEmail />}></Route>
         </Routes>

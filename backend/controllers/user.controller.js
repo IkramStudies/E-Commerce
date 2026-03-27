@@ -4,74 +4,94 @@ import nodemailer from "nodemailer";
 
 export const registerUser = async (req, res) => {
   try {
-    // req.body = {name: "Inaam", email: "inaamwani123@gmail.com", password: "1234abcd",confirmPassword: "1234abcd" }
     const { name, email, password, confirmPassword } = req.body;
-    // const {name: "Inaam", email: "inaamwani123@gmail.com", password: "1234abcd",confirmPassword: "1234abcd" }
-    // 1. Check all required fields
+
+    // 1. Validate fields
     if (!name || !email || !password || !confirmPassword) {
-      // if (!name || !email || !password || !confirmPassword)
-      // if (!('Inaam') || !("inaamwani123@gmail.com" || !("1234abcd") || !("1234abcd"))
-      // if (!true || !true || !true || !true )
       return res.status(400).json({
         status: false,
         message: "All fields are required",
       });
     }
-    // 2. Check password length
+
+    // 2. Password length
     if (password.length < 6) {
       return res.status(400).json({
         status: false,
-        message: "Password length should be more than or equal to 6 characters",
+        message: "Password must be at least 6 characters",
       });
     }
-    // 2. Check password match
+
+    // 3. Password match
     if (password !== confirmPassword) {
-      // if ('1234abcd' != '1234abcd') , false
       return res.status(400).json({
         status: false,
         message: "Passwords do not match",
       });
     }
 
-    // 3. Check if user already exists
+    // 4. Check existing user
     const existingUser = await User.findOne({ email });
-    // const existingUser = await User.findOne({email});
     if (existingUser) {
-      // if (null), false
       return res.status(400).json({
         status: false,
         message: "User already exists",
       });
     }
-    // hash password
+
+    // 5. Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
-    // 4. Create new user (DO NOT include confirmPassword)
+
+    // 6. Generate OTP
+    const otp = Math.floor(100000 + Math.random() * 900000);
+    // otp = Math.floor(100000 + Math.random() * 9000000)
+    // otp = Math.floor(100000 + 0.5932432 * 900000)
+    // otp = Math.floor(100000 + 4500000)
+    // otp = Math.floor(55000000)
+    // 7. OTP expiry (5 mins)
+    const otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
+
+    // 8. Create user with OTP
     const newUser = new User({
       name,
       email,
       password: hashedPassword,
+      otp,
+      otpExpiry,
+      isVerified: false,
     });
-    // newUser = new User({
-    //  name,
-    //  email,
-    //  password
-    // newUser =
-    // 5. Save to DB
+
     await newUser.save();
-    // 6. Send response (avoid sending password ideally)
-    res.status(201).json({
-      status: true,
-      message: "User has registered",
-      data: {
-        name: newUser.name,
-        email: newUser.email,
+
+    // 9. Create transporter (Gmail example)
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
     });
-    // creating transporter for sending email
+    /*
     const transporter = nodemailer.createTransport({
-      host: "live.smtp.mailtrap.io",
-      port: 587,
-      secure: false,
+      service: "gmail",
+      auth: {
+        user: PROCESS.env.EMAIL_USER,
+        pass: PROCESS.env.EMAIL_PASS,
+      }
+    })
+    */
+    // 10. Send OTP email
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Email Verification OTP",
+      text: `Your OTP is ${otp}. It expires in 5 minutes.`,
+    });
+
+    // 11. Send response
+    res.status(201).json({
+      status: true,
+      message: "User has registered. OTP sent to email - verify email",
     });
   } catch (error) {
     res.status(500).json({
@@ -81,7 +101,36 @@ export const registerUser = async (req, res) => {
     });
   }
 };
-
+export const verifyEmail = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(501).json({
+        status: false,
+        message: "User not found",
+      });
+    }
+    if (user.otp == otp && Date.now() < user.otpExpiry) {
+      // 231132 = 231132 && 1441441 < 123211 + 5
+      user.isVerified = true;
+      user.otp = undefined;
+      user.otpExpiry = undefined;
+      // save the user
+      await user.save();
+      return res.status(200).json({
+        status: true,
+        message: "OTP has been verified succesfully",
+      });
+    }
+  } catch (error) {
+    return res.status(500).json({
+      status: false,
+      message: "OTP is incorrect, please re enter the OTP",
+      error: error.message,
+    });
+  }
+};
 /*
 export const registerUser = async (req,res) => {
   try {
@@ -114,6 +163,10 @@ export const registerUser = async (req,res) => {
     }
   })
   }
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+
+  })
   catch (error) {
     res.status(201).json({
       status: false,
@@ -123,4 +176,29 @@ export const registerUser = async (req,res) => {
   }
   }
 */
-export const verifyEmail = async (req, res) => {};
+export const loginUser = async (req, res) => {
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+  if (!user)
+    return res.status(404).json({
+      status: false,
+      message: "User doesn't exist",
+    });
+  if (!email || !password) {
+    res.status(500).json({
+      status: false,
+      message: "All fields are necessary",
+    });
+  }
+  const isMatching = bcrypt.compare(password, user.password);
+  if (isMatching) {
+    return res.status(200).json({
+      status: true,
+      message: "User has given the right password",
+    });
+  } else
+    return res.status(401).json({
+      status: false,
+      message: "Incorrect password",
+    });
+};
