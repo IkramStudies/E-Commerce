@@ -4,6 +4,8 @@ const userSchema = new mongoose.Schema({
   email: String,
   password: String,
   confirmPassword: String,
+  otp: Number,
+  otpExpiry: Date,
   isVerified: {
     type: Boolean,
     default: false,

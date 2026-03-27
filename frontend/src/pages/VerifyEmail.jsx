@@ -13,7 +13,7 @@ const VerifyEmail = () => {
   }, []);
   return (
     <div>
-      <p className="text-center mt-14">{message}</p>
+      <p className="text-center mt-10">{message}</p>
       <p className="text-center pt-10">OTP has been sent to your email</p>
       <div className="form flex justify-center h-[30vh] items-center">
         <form action="">

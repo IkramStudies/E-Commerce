@@ -1,4 +1,6 @@
 import User from "../model/User.model.js";
+import bcrypt from "bcrypt";
+import nodemailer from "nodemailer";
 
 export const registerUser = async (req, res) => {
   try {
@@ -16,7 +18,7 @@ export const registerUser = async (req, res) => {
       });
     }
     // 2. Check password length
-    if (password.length < 6 && password.length != 6) {
+    if (password.length < 6) {
       return res.status(400).json({
         status: false,
         message: "Password length should be more than or equal to 6 characters",
@@ -41,12 +43,13 @@ export const registerUser = async (req, res) => {
         message: "User already exists",
       });
     }
-
+    // hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
     // 4. Create new user (DO NOT include confirmPassword)
     const newUser = new User({
       name,
       email,
-      password,
+      password: hashedPassword,
     });
     // newUser = new User({
     //  name,
@@ -63,6 +66,12 @@ export const registerUser = async (req, res) => {
         name: newUser.name,
         email: newUser.email,
       },
+    });
+    // creating transporter for sending email
+    const transporter = nodemailer.createTransport({
+      host: "live.smtp.mailtrap.io",
+      port: 587,
+      secure: false,
     });
   } catch (error) {
     res.status(500).json({
@@ -114,3 +123,4 @@ export const registerUser = async (req,res) => {
   }
   }
 */
+export const verifyEmail = async (req, res) => {};

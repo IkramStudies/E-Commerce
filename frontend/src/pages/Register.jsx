@@ -44,7 +44,7 @@ const Register = () => {
   };
   return (
     <div>
-      <p className="text-center pt-10">Register Page</p>
+      <p className="text-center pb-5 pt-4">Register Page</p>
       <div className="form flex justify-center h-[40vh] max-sm:h-[40vh] items-center">
         <form onSubmit={handleSubmit}>
           <label htmlFor="">Enter your name</label>
@@ -71,15 +71,20 @@ const Register = () => {
           <br />
           <label htmlFor="">Enter your password</label>
           <br />
-          <input
-            type="password"
-            placeholder="Enter your password"
-            className="border mt-1"
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-            required={true}
-          />
-          <br />
+          <div className="relative">
+            <input
+              type={isOpen ? "text" : "password"}
+              placeholder="Enter your password"
+              className="border mt-1 w-[210px]"
+              onChange={(e) => setPassword1(e.target.value)}
+              value={confirmPassword}
+              required={true}
+            />
+            <Eye
+              className="absolute top-[4px] right-[6px] "
+              onClick={() => setOpen(!isOpen)}
+            />
+          </div>
           <label htmlFor="">Confirm your password</label>
           <br />
           <div className="relative">
