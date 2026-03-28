@@ -120,7 +120,7 @@ export const verifyEmail = async (req, res) => {
       await user.save();
       return res.status(200).json({
         status: true,
-        message: "OTP has been verified succesfully",
+        message: "Email has been verified succesfully",
       });
     }
   } catch (error) {

@@ -1,23 +1,40 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
+
 const VerifyEmail = () => {
   const [message, setMessage] = useState(
     "User has registered, kindly enter the OTP shared on your email.",
   );
   const [otp, setOTP] = useState("");
   const [isRegistered, setRegistered] = useState(false);
+  const [email, setEmail] = useState("");
+
   const location = useLocation();
-  const email = location.state.email;
+  console.log(email);
   useEffect(() => {
+    const isVerified = localStorage.getItem("isVerified") === "true";
+    if (isVerified) {
+      setRegistered(true);
+      return;
+    }
+    const savedEmail = localStorage.getItem("email");
+    if (savedEmail) {
+      setEmail(savedEmail);
+    } else if (location.state.email) {
+      const newEmail = location.state.email;
+      setEmail(newEmail);
+      localStorage.setItem("email", newEmail);
+    }
     setTimeout(() => {
       setMessage("");
     }, 8000);
   }, []);
+
   const sendData = async (e) => {
-    setOTP(otp);
     e.preventDefault();
+
     const payload = { email, otp };
+
     const data = await fetch("http://localhost:3000/verify-email", {
       method: "POST",
       headers: {
@@ -25,57 +42,84 @@ const VerifyEmail = () => {
       },
       body: JSON.stringify(payload),
     });
+
     const response = await data.json();
-    console.log(response.status);
-    console.log(response.message);
-    setRegistered(response.status);
+
     setMessage(response.message);
-    setTimeout(() => {
-      setMessage("");
-    }, 6000);
-    if (isRegistered) {
-      setOTP("");
+    setOTP("");
+
+    if (response.status) {
+      localStorage.removeItem("email");
+      localStorage.setItem("isVerified", "true");
+      setRegistered(true);
+      setEmail("");
     }
+  };
+
+  const goToLogin = () => {
+    localStorage.removeItem("isVerified");
   };
   return (
     <div>
-      <p className="text-center mt-10">{message}</p>
-      {!isRegistered && (
-        <p className="text-center pt-10">OTP has been sent to your email</p>
-      )}
-      <div className="form flex justify-center h-[30vh] items-center">
-        <form action="" onSubmit={sendData}>
-          <label htmlFor="">Enter your OTP below</label>
-          <br />
-          <input
-            type="text"
-            className="border mt-2 pl-2 pr-2 rounded-sm"
-            placeholder="Enter OTP"
-            onChange={(e) => setOTP(e.target.value)}
-            value={otp}
-          />
-          <input
-            type="submit"
-            className="border ml-2 mt-2 rounded-sm pl-2 pr-2"
-          />
-          <br></br>
-          {!isRegistered ? (
-            <NavLink to="/register">
-              <button className="border mt-10 ml-2 pl-2 pr-2 rounded-sm">
-                Back to register page
+      {isRegistered ? (
+        <div className="flex flex-col items-center justify-center h-[40vh]">
+          <p className="mb-6">Email Verified successfully!</p>
+          <span>
+            Go to
+            <NavLink to="/login" onClick={goToLogin}>
+              <button className="border ml-2 pr-2 pl-2 rounded-sm">
+                Login Page
               </button>
             </NavLink>
-          ) : (
-            <>
-              <NavLink to="/login">
+          </span>
+        </div>
+      ) : !email ? (
+        <div className="flex justify-center h-[40vh] items-center">
+          <div>
+            <p>Go to register page first and enter the details</p>
+            <br />
+            <NavLink to="/register">
+              <button className="border pr-2 pl-2 rounded-sm">
+                Register Page
+              </button>
+            </NavLink>
+          </div>
+        </div>
+      ) : (
+        <>
+          <p className="text-center mt-10">{message}</p>
+
+          <p className="text-center pt-10">OTP has been sent to your email</p>
+
+          <div className="form flex justify-center h-[30vh] items-center">
+            <form onSubmit={sendData}>
+              <label>Enter your OTP below</label>
+              <br />
+
+              <input
+                type="text"
+                className="border mt-2 pl-2 pr-2 rounded-sm"
+                placeholder="Enter OTP"
+                onChange={(e) => setOTP(e.target.value)}
+                value={otp}
+              />
+
+              <input
+                type="submit"
+                className="border ml-2 mt-2 rounded-sm pl-2 pr-2"
+              />
+
+              <br />
+
+              <NavLink to="/register">
                 <button className="border mt-10 ml-2 pl-2 pr-2 rounded-sm">
-                  Go to login Page
+                  Back to register page
                 </button>
               </NavLink>
-            </>
-          )}
-        </form>
-      </div>
+            </form>
+          </div>
+        </>
+      )}
     </div>
   );
 };
