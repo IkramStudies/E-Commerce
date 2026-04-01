@@ -190,8 +190,8 @@ export const loginUser = async (req, res) => {
       message: "All fields are necessary",
     });
   }
-  const isMatching = bcrypt.compare(password, user.password);
-  if (isMatching) {
+  const isMatched = await bcrypt.compare(password, user.password);
+  if (isMatched) {
     return res.status(200).json({
       status: true,
       message: "User has given the right password",

@@ -6,6 +6,7 @@ const Login = ({ setloggedIn }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isOpen, setOpen] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const login = async (e) => {
     e.preventDefault();
@@ -20,9 +21,12 @@ const Login = ({ setloggedIn }) => {
       });
       const response = await data.json();
       console.log(response.message);
+      // setLoggedIn prop becomes true or false
       setloggedIn(response.status);
       if (response.status) {
         navigate("/");
+      } else {
+        setError(response.message);
       }
     } catch (error) {
       console.log(error.message);
@@ -61,6 +65,7 @@ const Login = ({ setloggedIn }) => {
             />
           </div>
           <br></br>
+          {error && <p>{error}</p>}
           <button className="border pr-2 pl-2 rounded-sm mt-4 mr-4">
             Sign In
           </button>

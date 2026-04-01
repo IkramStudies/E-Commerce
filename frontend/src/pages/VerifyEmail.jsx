@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 const VerifyEmail = () => {
   const [message, setMessage] = useState(
@@ -8,7 +8,7 @@ const VerifyEmail = () => {
   const [otp, setOTP] = useState("");
   const [isRegistered, setRegistered] = useState(false);
   const [email, setEmail] = useState("");
-
+  const navigate = useNavigate();
   const location = useLocation();
   console.log(email);
   useEffect(() => {
@@ -20,7 +20,7 @@ const VerifyEmail = () => {
     const savedEmail = localStorage.getItem("email");
     if (savedEmail) {
       setEmail(savedEmail);
-    } else if (location.state.email) {
+    } else if (location.state?.email) {
       const newEmail = location.state.email;
       setEmail(newEmail);
       localStorage.setItem("email", newEmail);
@@ -74,12 +74,14 @@ const VerifyEmail = () => {
           </span>
         </div>
       ) : !email ? (
-        <div className="flex justify-center h-[40vh] items-center">
+        <div className="flex justify-center h-[50vh] items-center">
           <div>
-            <p>Go to register page first and enter the details</p>
+            <p className="text-lg">
+              Go to register page first and enter the details
+            </p>
             <br />
             <NavLink to="/register">
-              <button className="border pr-2 pl-2 rounded-sm">
+              <button className="text-lg border pr-2 pl-2 rounded-sm">
                 Register Page
               </button>
             </NavLink>

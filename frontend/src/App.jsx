@@ -10,6 +10,7 @@ import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import VerifyEmail from "./pages/VerifyEmail";
+import Product from "./pages/Product";
 import "./App.css";
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
           <Route path="/login" element={<Login setloggedIn={setloggedIn} />} />
           <Route path="/register" element={<Register />} />
           <Route path="/verify-email" element={<VerifyEmail />}></Route>
+          <Route path="/product/:id/:slug" element={<Product />}></Route>
         </Routes>
       </div>
     </>

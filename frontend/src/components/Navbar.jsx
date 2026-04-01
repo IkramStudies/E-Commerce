@@ -10,7 +10,7 @@ const Navbar = ({ loggedIn }) => {
   return (
     <div>
       <nav>
-        <ul className="flex gap-14 justify-center max-md:hidden ">
+        <ul className="flex gap-14 justify-center max-md:hidden">
           <li>
             <NavLink to="/">Home</NavLink>
           </li>
@@ -49,7 +49,7 @@ const Navbar = ({ loggedIn }) => {
           <li>
             <FontAwesomeIcon
               icon={faBars}
-              className="max-sm:text-white"
+              className="max-sm:text-black"
               onClick={() => setOpen(!isOpen)}
             />
           </li>
