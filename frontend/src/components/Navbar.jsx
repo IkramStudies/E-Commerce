@@ -10,7 +10,7 @@ const Navbar = ({ loggedIn }) => {
   return (
     <div>
       <nav>
-        <ul className="flex gap-14 justify-center max-md:hidden">
+        <ul className="flex gap-14 justify-center max-md:hidden block">
           <li>
             <NavLink to="/">Home</NavLink>
           </li>
