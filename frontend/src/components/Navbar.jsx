@@ -1,38 +1,63 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
 const Navbar = ({ loggedIn }) => {
   const [isOpen, setOpen] = useState(false);
-  console.log(loggedIn);
+
   return (
     <div>
       <nav>
-        <ul className="flex gap-14 justify-center max-md:hidden block">
-          <li>
-            <NavLink to="/">Home</NavLink>
+        <ul
+          className={`flex md:gap-14 md:justify-center max-sm:absolute 
+           ${isOpen ? "w-40 h-full flex-col bg-gray-400 max-sm:gap-8" : "max-sm:[&>li:not(:first-child)]:hidden"}
+               `}
+        >
+          <li className="md:hidden">
+            <FontAwesomeIcon
+              icon={faBars}
+              className="max-sm:text-black "
+              onClick={() => setOpen(!isOpen)}
+            />
           </li>
           <li>
-            <NavLink to="/about">About</NavLink>
+            <NavLink to="/" onClick={() => setOpen(false)}>
+              Home
+            </NavLink>
           </li>
           <li>
-            <NavLink to="/products">Products</NavLink>
+            <NavLink to="/about" onClick={() => setOpen(false)}>
+              About
+            </NavLink>
           </li>
           <li>
-            <NavLink to="/contact">Contact</NavLink>
+            <NavLink to="/products" onClick={() => setOpen(false)}>
+              Products
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/contact" onClick={() => setOpen(false)}>
+              Contact
+            </NavLink>
           </li>
           <li className="absolute min-md:right-4 max-sm:static">
             {loggedIn ? (
-              <button className="bg-[gray] w-16 rounded-sm max-md:text-sm">
-                <NavLink to="/login">Log Out</NavLink>
+              <button className="border pl-2 pr-2 w-20 rounded-sm max-md:text-sm">
+                <NavLink
+                  to="/login"
+                  onClick={() => localStorage.removeItem("loggedIn")}
+                >
+                  Log Out
+                </NavLink>
               </button>
             ) : (
               <button>
                 <NavLink
                   to="/login"
-                  className="bg-[gray] w-16 rounded-sm max-md:text-sm"
+                  className="border pl-2 pr-2 w-16 rounded-sm max-md:text-sm"
+                  onClick={() => setOpen(false)}
                 >
                   Log In
                 </NavLink>
@@ -42,49 +67,8 @@ const Navbar = ({ loggedIn }) => {
           <li className="absolute min-md:right-30 max-sm:static">
             <FontAwesomeIcon icon={faShoppingCart} />
           </li>
-        </ul>
-        <ul
-          className={`min-sm:hidden flex gap-4 flex-col absolute ${isOpen ? "menu-nav bg-gray-400 h-full w-40 " : "[&>li:not(:first-child)]:hidden"}`}
-        >
-          <li>
-            <FontAwesomeIcon
-              icon={faBars}
-              className="max-sm:text-black"
-              onClick={() => setOpen(!isOpen)}
-            />
-          </li>
-          <li>
-            <NavLink to="/">Home</NavLink>
-          </li>
-          <li>
-            <NavLink to="/about"> About </NavLink>
-          </li>
-          <li>
-            <NavLink to="/products">Products</NavLink>
-          </li>
-          <li>
-            <NavLink to="/contact">Contact</NavLink>{" "}
-          </li>
-          <li>
-            <NavLink to="/cart">
-              <FontAwesomeIcon icon={faShoppingCart} />
-            </NavLink>
-          </li>
-          <li>
-            {loggedIn ? (
-              <button className="bg-[gray] w-14 rounded-sm max-md:text-sm">
-                <NavLink to="/login">Log Out</NavLink>
-              </button>
-            ) : (
-              <button>
-                <NavLink
-                  to="/login"
-                  className="bg-[gray] w-14 rounded-sm max-md:text-sm"
-                >
-                  Log In
-                </NavLink>
-              </button>
-            )}
+          <li className="max-sm:block hidden">
+            <FontAwesomeIcon icon={faShoppingCart} />
           </li>
         </ul>
       </nav>

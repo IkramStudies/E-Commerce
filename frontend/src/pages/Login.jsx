@@ -22,8 +22,9 @@ const Login = ({ setloggedIn }) => {
       const response = await data.json();
       console.log(response.message);
       // setLoggedIn prop becomes true or false
-      setloggedIn(response.status);
       if (response.status) {
+        setloggedIn(response.status);
+        localStorage.setItem("loggedIn", response.status);
         navigate("/");
       } else {
         setError(response.message);

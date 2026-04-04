@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "./assets/vite.svg";
 import heroImg from "./assets/hero.png";
@@ -16,6 +16,10 @@ import "./App.css";
 function App() {
   const location = useLocation();
   const [loggedIn, setloggedIn] = useState(false);
+  useEffect(() => {
+    const loggedIn1 = localStorage.getItem("loggedIn") === "true";
+    if (loggedIn1) setloggedIn(true);
+  }, []);
   return (
     <>
       <div>

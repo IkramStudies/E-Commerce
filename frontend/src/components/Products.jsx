@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const Products = () => {
   const [data, setData] = useState([]);
   const [currentPage, setPage] = useState(1);
-  const itemsPerPage = 4;
+  const itemsPerPage = 2;
   useEffect(() => {
     async function getData() {
       const response = await fetch("https://api.escuelajs.co/api/v1/products");
@@ -23,9 +23,9 @@ const Products = () => {
       <p className="text-center pt-10 pb-10">Products</p>
       <div className="flex gap-10 flex-row flex-wrap lg:ml-40 ml-16">
         {currentData?.map((val) =>
-          val.id != 18 ? (
+          val.id != 7 ? (
             <div
-              className="products border p-6 w-60 rounded-sm w-[260px]"
+              className="products border p-6 w-60 rounded-sm w-[260px] cursor-pointer"
               onClick={() => {
                 navigate(`/product/${val.id}/${val.slug}`, {
                   state: { val },
@@ -37,7 +37,7 @@ const Products = () => {
                 src={val.images}
                 height={200}
                 width={280}
-                className="pt-3 pb-3 "
+                className="pt-3 pb-3"
                 alt=""
               />
               <button className="mr-10 border pl-1 pr-1 text-sm rounded-sm">

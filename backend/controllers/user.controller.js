@@ -5,7 +5,7 @@ import nodemailer from "nodemailer";
 export const registerUser = async (req, res) => {
   try {
     const { name, email, password, confirmPassword } = req.body;
-
+    // name = 'Inaam', email: "rahul123@gmail.com"
     // 1. Validate fields
     if (!name || !email || !password || !confirmPassword) {
       return res.status(400).json({
