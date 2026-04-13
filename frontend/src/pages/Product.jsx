@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 
 const Product = () => {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const { id } = useParams();
   useEffect(() => {
     const getData = async () => {

@@ -1,11 +1,12 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import Hero from "../components/Hero";
 import Products from "../components/Products";
-const Home = () => {
+const Home = ({ setCount, count }) => {
   return (
     <div>
       <Hero />
-      <Products />
+      <Products setCount={setCount} count={count} />
     </div>
   );
 };

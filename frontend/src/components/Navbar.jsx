@@ -1,24 +1,25 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
-
-const Navbar = ({ loggedIn }) => {
+import Cart from "../pages/Cart";
+const Navbar = ({ loggedIn, count }) => {
   const [isOpen, setOpen] = useState(false);
-
+  const [cart, setCart] = useState(false);
+  const navigate = useNavigate();
   return (
     <div>
       <nav>
         <ul
-          className={`flex md:gap-14 md:justify-center max-sm:absolute 
-           ${isOpen ? "w-40 h-full flex-col bg-gray-400 max-sm:gap-8" : "max-sm:[&>li:not(:first-child)]:hidden"}
+          className={`flex md:gap-14 md:justify-center max-sm:fixed 
+           ${isOpen ? "w-40 h-full flex-col bg-gray-400 max-sm:gap-8 " : "max-sm:[&>li:not(:first-child)]:hidden"}
                `}
         >
           <li className="md:hidden">
             <FontAwesomeIcon
               icon={faBars}
-              className="max-sm:text-black "
+              className="max-sm:text-gray-500 "
               onClick={() => setOpen(!isOpen)}
             />
           </li>
@@ -65,10 +66,12 @@ const Navbar = ({ loggedIn }) => {
             )}
           </li>
           <li className="absolute min-md:right-30 max-sm:static">
-            <FontAwesomeIcon icon={faShoppingCart} />
-          </li>
-          <li className="max-sm:block hidden">
-            <FontAwesomeIcon icon={faShoppingCart} />
+            <FontAwesomeIcon
+              icon={faShoppingCart}
+              onClick={() => setCart(!cart)}
+            />
+            {count != 0 && <span>{count}</span>}
+            {cart && <Cart />}
           </li>
         </ul>
       </nav>
