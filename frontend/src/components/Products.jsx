@@ -51,9 +51,11 @@ const Products = ({ setCount, count }) => {
                     setProduct(val);
                     console.log(product);
                     e.stopPropagation();
-                    const count1 = count + 1;
-                    setCount(count1);
-                    localStorage.setItem("count", count1);
+                    const count1 = count + 1; // count1 will be used for local storage, because react state updates are asynchronous
+                    setCount((prev) => prev + 1); // this line will be executed after the next line, state updates are asynchronous
+                    // if count was 5, after clicking it will remain 5, move to the next line
+                    localStorage.setItem("count", count1); // a reason we should not store,
+                    // the value of react state in local storage, if we have to read it we should use an updated value
                   }}
                 >
                   Add to Cart
