@@ -2,13 +2,16 @@ import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye } from "lucide-react";
-const Login = ({ setloggedIn }) => {
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+const Login = () => {
+  const { login } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isOpen, setOpen] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const login = async (e) => {
+  const loginUser = async (e) => {
     e.preventDefault();
     try {
       const payload = { email, password };
@@ -21,10 +24,8 @@ const Login = ({ setloggedIn }) => {
       });
       const response = await data.json();
       console.log(response.message);
-      // setLoggedIn prop becomes true or false
       if (response.status) {
-        setloggedIn(response.status);
-        localStorage.setItem("loggedIn", response.status);
+        login();
         navigate("/");
       } else {
         setError(response.message);
@@ -39,7 +40,7 @@ const Login = ({ setloggedIn }) => {
         Login Page
       </h1>
       <div className="form flex justify-center h-[80vh] items-center">
-        <form action="" onSubmit={login}>
+        <form action="" onSubmit={loginUser}>
           <label htmlFor="">Enter Email</label>
           <br></br>
           <input
@@ -67,8 +68,11 @@ const Login = ({ setloggedIn }) => {
           </div>
           <br></br>
           {error && <p>{error}</p>}
-          <button className="border pr-2 pl-2 rounded-sm mt-4 mr-4">
-            Sign In
+          <button
+            className="border pr-2 pl-2 rounded-sm mt-4 mr-4"
+            onClick={login}
+          >
+            Log In
           </button>
           <button
             className="border rounded-sm pr-2 pl-2"

@@ -4,10 +4,14 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import Cart from "../pages/Cart";
-const Navbar = ({ loggedIn, count }) => {
-  const [isOpen, setOpen] = useState(false);
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { CartContext } from "../context/CartContext";
+const Navbar = () => {
+  const { loggedIn, login, logout } = useContext(AuthContext);
+  const { count } = useContext(CartContext);
   const [cart, setCart] = useState(false);
-  const navigate = useNavigate();
+  const [isOpen, setOpen] = useState(false);
   return (
     <div>
       <nav>
@@ -46,15 +50,12 @@ const Navbar = ({ loggedIn, count }) => {
           <li className="absolute min-md:right-4 max-sm:static">
             {loggedIn ? (
               <button className="border pl-2 pr-2 w-20 rounded-sm max-md:text-sm">
-                <NavLink
-                  to="/login"
-                  onClick={() => localStorage.removeItem("loggedIn")}
-                >
+                <NavLink to="/login" onClick={logout}>
                   Log Out
                 </NavLink>
               </button>
             ) : (
-              <button>
+              <button onClick={login}>
                 <NavLink
                   to="/login"
                   className="border pl-2 pr-2 w-16 rounded-sm max-md:text-sm"

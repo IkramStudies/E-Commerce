@@ -1,10 +1,12 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-const Products = ({ setCount, count }) => {
+import { useContext } from "react";
+import { CartContext } from "../context/CartContext";
+const Products = () => {
+  const { addProduct } = useContext(CartContext);
   const [data, setData] = useState([]);
   const [currentPage, setPage] = useState(1);
-  const [product, setProduct] = useState("");
   const itemsPerPage = 2;
   useEffect(() => {
     async function getData() {
@@ -48,14 +50,8 @@ const Products = ({ setCount, count }) => {
                 <button
                   className="border text-sm pl-1 pr-1 rounded-sm cart"
                   onClick={(e) => {
-                    setProduct(val);
-                    console.log(product);
+                    addProduct(val);
                     e.stopPropagation();
-                    const count1 = count + 1; // count1 will be used for local storage, because react state updates are asynchronous
-                    setCount((prev) => prev + 1); // this line will be executed after the next line, state updates are asynchronous
-                    // if count was 5, after clicking it will remain 5, move to the next line
-                    localStorage.setItem("count", count1); // a reason we should not store,
-                    // the value of react state in local storage, if we have to read it we should use an updated value
                   }}
                 >
                   Add to Cart
