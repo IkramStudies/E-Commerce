@@ -13,7 +13,6 @@ const Products = () => {
       const response = await fetch("https://api.escuelajs.co/api/v1/products");
       const data = await response.json();
       setData(data);
-      console.log(data);
     }
     getData();
   }, []);
@@ -27,7 +26,7 @@ const Products = () => {
       <div className="flex gap-10 flex-row flex-wrap lg:ml-40 ml-16">
         {currentData?.map(
           (val) =>
-            val.id != 7 && (
+            val.id != 14 && (
               <div
                 className="products border p-6 w-60 rounded-sm w-[260px] cursor-pointer"
                 onClick={() => {

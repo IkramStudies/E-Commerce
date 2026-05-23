@@ -7,3 +7,15 @@ input {
   padding-left: 6px;
   border-radius: 2px;
 }
+
+.products {
+  overflow: auto;
+}
+.products::-webkit-scrollbar {
+  width: 6px;
+  height: 12px;
+}
+
+.products::-webkit-scrollbar-thumb {
+  background: rgb(108, 108, 108);
+}
