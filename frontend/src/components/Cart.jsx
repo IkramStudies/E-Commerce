@@ -18,7 +18,7 @@ const Cart = () => {
         >
           X
         </span>
-        <div className="products flex flex-col gap-10 mt-4 items-center h-[90vh]">
+        <div className="products flex flex-col gap-10 mt-4 items-center h-[90vh] mb-20">
           {products.map((val) => (
             <>
               <span>{val.title}</span>
@@ -32,11 +32,15 @@ const Cart = () => {
                   max={100}
                   defaultValue={1}
                   value={quantity}
+                  onChange={(e) => setQuantity(e.target.value)}
                 />
               </div>
-              <span>Price: {val.price * quantity}</span>
+              <span>Price: {val.price}</span>
             </>
           ))}
+          <button className="border rounded-sm p-2  ">
+            Proceed to Checkout
+          </button>
         </div>
       </div>
     )
