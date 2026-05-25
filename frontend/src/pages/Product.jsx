@@ -42,7 +42,7 @@ const Product = () => {
           </div>
         </>
       ) : (
-        <p>Loading...</p>
+        <p className="text-center">Loading...</p>
       )}
     </div>
   );
