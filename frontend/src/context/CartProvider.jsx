@@ -10,6 +10,14 @@ const CartProvider = ({ children }) => {
     const count1 = localStorage.getItem("count");
     if (count1) setCount(parseInt(count1));
   }, []);
+  useEffect(() => {
+    setTotal(
+      products.reduce(
+        (acc, currentVal) => acc + currentVal.price * currentVal.quantity,
+        0,
+      ),
+    );
+  }, [products]);
   const addProduct = (passedProduct, index) => {
     console.log(passedProduct);
     let exists = products.find((val) => val.id == passedProduct.id);
@@ -28,15 +36,9 @@ const CartProvider = ({ children }) => {
         ),
       );
     }
-    setTotal(
-      products.reduce(
-        (acc, currentVal) => acc + currentVal.price * currentVal.quantity,
-        0,
-      ),
-    );
   };
   return (
-    <CartContext.Provider value={{ addProduct, count, products }}>
+    <CartContext.Provider value={{ addProduct, count, products, total }}>
       {children}
     </CartContext.Provider>
   );
