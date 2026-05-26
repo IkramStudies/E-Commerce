@@ -4,7 +4,8 @@ import { useContext } from "react";
 import { CartContext } from "../context/CartContext";
 const Cart = () => {
   const [isOpen, setOpen] = useState(true);
-  const { products, total } = useContext(CartContext);
+  const { products, total, increaseQuantity, decreaseQuantity } =
+    useContext(CartContext);
   return (
     isOpen && (
       <div className="w-80 h-full max-sm:w-40 absolute fixed bg-[gray] right-0 ">
@@ -25,16 +26,20 @@ const Cart = () => {
             <>
               <span>{val.title}</span>
               <img src={val.images} className="h-40 w-40" alt="" />
-              <div className="flex gap-10">
-                <span>Quantity:</span>
-                <input
-                  type="number"
-                  className="border w-10 "
-                  min={1}
-                  max={100}
-                  value={val.quantity}
-                  onChange={(e) => e.target.value}
-                />
+              <div className="flex gap-10 ">
+                <button
+                  className="rounded-lg border border-black-300 text-[24px] h-[30px] w-[30px] text-center w-[16px] "
+                  onClick={() => decreaseQuantity(val)}
+                >
+                  -
+                </button>
+                <span className="mt-1"> {val.quantity}</span>
+                <button
+                  className="rounded-lg border border-black-300 text-[24px] h-[30px] w-[30px] text-center w-[16px] "
+                  onClick={() => increaseQuantity(val)}
+                >
+                  +
+                </button>
               </div>
               <span>Price: {val.price}</span>
             </>
