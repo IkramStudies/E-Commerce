@@ -4,19 +4,25 @@ const Checkout = () => {
   return (
     <div className="flex justify-center mt-10">
       <form action="">
-        <label htmlFor="" className="w-32">
+        <label htmlFor="" className="w-30 inline-block">
           Enter Name:
         </label>
-        <input className="border mt-6 ml-6" />
+        <input className="border mt-5 ml-6" />
         <br />
-        <label htmlFor="">Phone Number:</label>
+        <label htmlFor="" className="inline-block w-30">
+          Phone Number:
+        </label>
         <input className="border ml-6 mt-6" />
         <br />
-        <label htmlFor="">Delivery Address:</label>
-        <input type="text" className="ml-6 border mt-6" />
+        <label htmlFor="" className="w-31 inline-block">
+          Delivery Address:
+        </label>
+        <input type="text" className="ml-5 border mt-6" />
         <br />
-        <label htmlFor="">Payment Method:</label>
-        <select name="" id="" className="border mt-6 ml-6">
+        <label htmlFor="" className="w-32 inline-block">
+          Payment Method:
+        </label>
+        <select name="" id="" className="border mt-6 ml-5">
           <option value="">Cash on Delivery</option>
           <option value="">Card</option>
         </select>
