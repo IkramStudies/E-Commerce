@@ -36,7 +36,6 @@ function App() {
               <Route path="/products" element={<Products />}></Route>
               <Route path="/product/:id/:slug" element={<Product />}></Route>
               <Route path="/checkout" element={<Checkout />}></Route>
-              <Route></Route>
             </Routes>
           </div>
         </CartProvider>
