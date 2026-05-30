@@ -24,12 +24,11 @@ const Products = () => {
   const currentData = data.slice(start, end);
   return (
     <>
-      <p className="text-center pt-10 pb-10">Products</p>
       {loading ? (
         <p className="text-center">Loading....</p>
       ) : (
         <>
-          <div className="flex gap-10 flex-row flex-wrap lg:ml-40 ml-16">
+          <div className="flex gap-10 flex-row flex-wrap lg:ml-40 ml-16 mt-20">
             {currentData?.map(
               (val) =>
                 val.id != 14 && (

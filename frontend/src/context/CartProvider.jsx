@@ -2,17 +2,20 @@ import { useState, useEffect } from "react";
 import { CartContext } from "./CartContext";
 
 const CartProvider = ({ children }) => {
-  const [count, setCount] = useState(0);
-  const [products, setProduct] = useState([]);
+  const [count, setCount] = useState(() => {
+    const storedCount = localStorage.getItem("count");
+    return storedCount ? parseInt(storedCount) : 0;
+  });
+  const [products, setProduct] = useState(() => {
+    const product = localStorage.getItem("products");
+    return product ? JSON.parse(product) : [];
+  });
   useEffect(() => {
-    localStorage.removeItem("count");
-    // localStorage.removeItem("products");
-    const count1 = localStorage.getItem("count");
-    if (count1) setCount(parseInt(count1));
-    const products1 = JSON.parse(localStorage.getItem("products"));
-    if (products1) setProduct(products1);
-    console.log(products1);
-  }, []);
+    localStorage.setItem("count", count);
+  }, [count]);
+  useEffect(() => {
+    localStorage.setItem("products", JSON.stringify(products));
+  }, [products]);
   const total = products.reduce(
     (acc, currentVal) => acc + currentVal.price * currentVal.quantity,
     0,
@@ -23,7 +26,6 @@ const CartProvider = ({ children }) => {
     if (!exists) {
       const count1 = count + 1;
       setCount(count1);
-      localStorage.setItem("count", count1);
       setProduct([...products, { ...passedProduct, quantity: 1 }]);
       console.log(products);
     } else {
@@ -34,7 +36,6 @@ const CartProvider = ({ children }) => {
             : val,
         ),
       );
-      localStorage.setItem("products", JSON.stringify(products));
     }
   };
   const increaseQuantity = (passedProduct) => {
@@ -57,6 +58,10 @@ const CartProvider = ({ children }) => {
       ),
     );
   };
+  const deleteProduct = (product) => {
+    setProduct(products.filter((val) => val.id != product.id));
+    setCount(count - 1);
+  };
   return (
     <CartContext.Provider
       value={{
@@ -66,6 +71,7 @@ const CartProvider = ({ children }) => {
         total,
         increaseQuantity,
         decreaseQuantity,
+        deleteProduct,
       }}
     >
       {children}

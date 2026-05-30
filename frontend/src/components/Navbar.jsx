@@ -47,6 +47,11 @@ const Navbar = () => {
               Contact
             </NavLink>
           </li>
+          <li>
+            <NavLink to="/orders" onClick={() => setOpen(false)}>
+              Orders
+            </NavLink>
+          </li>
           <li className="absolute min-md:right-4 max-sm:static">
             {loggedIn ? (
               <button className="border pl-2 pr-2 w-20 rounded-sm max-md:text-sm">
