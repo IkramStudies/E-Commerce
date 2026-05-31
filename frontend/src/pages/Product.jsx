@@ -18,6 +18,7 @@ const Product = () => {
   console.log(product);
   return (
     <div className="flex flex-col pt-10 lg:ml-30 max-sm:ml-10 relative">
+      <input type="search" className="border" />
       {product ? (
         <>
           <p className="text-xl">{product.title}</p>

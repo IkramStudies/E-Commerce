@@ -1,14 +1,16 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useContext } from "react";
 import { CartContext } from "../context/CartContext";
+import SearchBar from "./SearchBar";
 const Products = () => {
   const { addProduct } = useContext(CartContext);
   const [data, setData] = useState([]);
   const [currentPage, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
-  const itemsPerPage = 2;
+  const itemsPerPage = 13;
+  const [value, setValue] = useState("");
   useEffect(() => {
     async function getData() {
       const response = await fetch("https://api.escuelajs.co/api/v1/products");
@@ -18,20 +20,33 @@ const Products = () => {
     }
     getData();
   }, []);
+  console.log(data);
   const navigate = useNavigate();
   const start = (currentPage - 1) * itemsPerPage; //starting Index
   const end = start + itemsPerPage; //ending Index
-  const currentData = data.slice(start, end);
+  const handleChange = (e) => {
+    setValue(e.target.value);
+    setPage(1);
+  };
+  const filteredData = data.filter((val) =>
+    val.title.toLowerCase().includes(value.toLocaleLowerCase()),
+  );
+  const currentData = filteredData.slice(start, end);
+  const location = useLocation();
   return (
     <>
       {loading ? (
         <p className="text-center">Loading....</p>
       ) : (
         <>
+          {location.pathname === "/products" && (
+            <SearchBar handleChange={handleChange} value={value} />
+          )}
           <div className="flex gap-10 flex-row flex-wrap lg:ml-40 ml-16 mt-20">
             {currentData?.map(
               (val) =>
-                val.id != 14 && (
+                val.id != 14 &&
+                val.id != 7 && (
                   <div
                     className="products border p-6 w-60 rounded-sm w-[260px] cursor-pointer"
                     onClick={() => {
@@ -40,7 +55,7 @@ const Products = () => {
                       });
                     }}
                   >
-                    <p>{val.title}</p>
+                    <p className="w-[230px]">{val.title}</p>
                     <img
                       src={val.images}
                       height={200}

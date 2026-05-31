@@ -1,23 +1,38 @@
 import React from "react";
-
+import { useState } from "react";
 const Checkout = () => {
+  const [name, setName] = useState("");
+  const [number, setNumber] = useState("");
+  const [address, setAddress] = useState("");
+  const [paymentMode, setMode] = useState("");
+  const [total, setTotal] = useState("");
   return (
-    <div className="flex justify-center mt-10">
+    <div className="flex justify-center pt-10">
       <form action="">
         <label htmlFor="" className="w-30 inline-block">
           Enter Name:
         </label>
-        <input className="border mt-5 ml-6" />
+        <input
+          className="border mt-5 ml-6"
+          onChange={(e) => setName(e.target.value)}
+        />
         <br />
         <label htmlFor="" className="inline-block w-30">
           Phone Number:
         </label>
-        <input className="border ml-6 mt-6" />
+        <input
+          className="border ml-6 mt-6"
+          onChange={(e) => setNumber(e.target.value)}
+        />
         <br />
         <label htmlFor="" className="w-31 inline-block">
           Delivery Address:
         </label>
-        <input type="text" className="ml-5 border mt-6" />
+        <input
+          type="text"
+          className="ml-5 border mt-6"
+          onChange={(e) => setAddress(e.target.value)}
+        />
         <br />
         <label htmlFor="" className="w-32 inline-block">
           Payment Method:
