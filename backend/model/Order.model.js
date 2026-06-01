@@ -1,12 +1,15 @@
 import mongoose from "mongoose";
 const orderSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
   name: String,
   id: Number,
   number: Number,
   address: String,
   paymentMode: String,
-  qty: Number,
-  summary: String,
+  summary: Array,
   total: Number,
 });
 

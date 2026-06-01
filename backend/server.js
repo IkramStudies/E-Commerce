@@ -3,6 +3,7 @@ import connectDB from "./config/db.js";
 import { configDotenv } from "dotenv";
 import cors from "cors";
 import router from "./routes/user.routes.js";
+import router2 from "./routes/order.routes.js";
 configDotenv();
 const port = process.env.PORT || 3000;
 const app = express();
@@ -16,6 +17,7 @@ app.use(
 );
 app.use(express.json());
 app.use(router);
+app.use(router2);
 app.get("/", (req, res) => {
   res.send("Welcome to backend");
 });
