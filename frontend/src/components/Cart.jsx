@@ -29,7 +29,7 @@ const Cart = () => {
         >
           X
         </span>
-        <div className="products flex flex-col gap-10 mt-4 items-center h-[70vh] mb-20">
+        <div className="cartProducts flex flex-col gap-10 mt-4 items-center h-[70vh] mb-20">
           {products.map((val) => (
             <>
               <span>{val.title}</span>

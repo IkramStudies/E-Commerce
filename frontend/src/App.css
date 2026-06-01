@@ -8,14 +8,14 @@ input {
   border-radius: 2px;
 }
 
-.products {
+.cartProducts {
   overflow: auto;
 }
-.products::-webkit-scrollbar {
+.cartProducts::-webkit-scrollbar {
   width: 6px;
   height: 12px;
 }
 
-.products::-webkit-scrollbar-thumb {
+.cartProducts::-webkit-scrollbar-thumb {
   background: rgb(108, 108, 108);
 }
