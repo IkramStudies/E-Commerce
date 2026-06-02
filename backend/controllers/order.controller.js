@@ -2,10 +2,21 @@ import Order from "../model/Order.model.js";
 
 export const placeOrder = async (req, res) => {
   try {
-    const { user, name, number, address, paymentMode, qty, summary, total } =
+    // Temporary fix until auth middleware is added
+    const user = req.user ? req.user.id : null;
+
+    const { name, number, address, paymentMode, qty, summary, total } =
       req.body;
 
-    if (!name || !number || !address || !paymentMode || !summary || !total) {
+    // Validation
+    if (
+      !name ||
+      !number ||
+      !address ||
+      !paymentMode ||
+      summary.length === 0 ||
+      !total
+    ) {
       return res.status(400).json({
         status: false,
         message: "All fields are necessary",
@@ -29,6 +40,8 @@ export const placeOrder = async (req, res) => {
       order,
     });
   } catch (error) {
+    console.log(error);
+
     return res.status(500).json({
       status: false,
       message: "Internal Server Error",
@@ -39,7 +52,20 @@ export const placeOrder = async (req, res) => {
 
 export const getOrders = async (req, res) => {
   try {
-    const orders = await Order.find();
+    // If auth exists → fetch user-specific orders
+    // Else → fetch all orders temporarily
+
+    let orders;
+
+    if (req.user) {
+      orders = await Order.find({
+        user: req.user.id,
+      }).sort({ createdAt: -1 });
+    } else {
+      orders = await Order.find().sort({
+        createdAt: -1,
+      });
+    }
 
     return res.status(200).json({
       status: true,
@@ -47,6 +73,8 @@ export const getOrders = async (req, res) => {
       orders,
     });
   } catch (error) {
+    console.log(error);
+
     return res.status(500).json({
       status: false,
       message: "Internal Server Error",

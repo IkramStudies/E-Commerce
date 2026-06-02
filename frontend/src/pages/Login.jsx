@@ -13,19 +13,31 @@ const Login = () => {
   const navigate = useNavigate();
   const loginUser = async (e) => {
     e.preventDefault();
+
     try {
       const payload = { email, password };
+
       const data = await fetch("http://localhost:3000/login", {
         method: "POST",
         headers: {
-          "content-type": "application/JSON",
+          "content-type": "application/json",
         },
         body: JSON.stringify(payload),
       });
+
       const response = await data.json();
+
+      // Save token
+      localStorage.setItem("token", response.token);
+
+      // Save user
+      localStorage.setItem("user", JSON.stringify(response.user));
+
       console.log(response.message);
+
       if (response.status) {
         login();
+
         navigate("/");
       } else {
         setError(response.message);

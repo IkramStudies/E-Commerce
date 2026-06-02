@@ -7,7 +7,7 @@ const Checkout = () => {
   const [number, setNumber] = useState("");
   const [address, setAddress] = useState("");
   const [paymentMode, setMode] = useState("");
-  const { products, total } = useContext(CartContext);
+  const { products, total, clearCart, clearCount } = useContext(CartContext);
   const handleSubmit = async (e) => {
     e.preventDefault();
     let summary = products.map(
@@ -30,6 +30,8 @@ const Checkout = () => {
       setNumber("");
       setAddress("");
       setMode("");
+      clearCart();
+      clearCount();
     } catch (error) {
       console.log(error);
 
@@ -86,12 +88,15 @@ const Checkout = () => {
         <br />
 
         <div className="mt-6">
-          <label>
-            Order Summary:{summa}
-            {products.map((val) => (
-              <p className="mt-2">qty: {val.quantity}</p>
-            ))}
-          </label>
+          {products.length === 0 ? (
+            <p>No items in cart</p>
+          ) : (
+            products.map((val) => (
+              <p key={val._id} className="mt-2">
+                {val.title} - qty: {val.quantity}
+              </p>
+            ))
+          )}
         </div>
 
         <br />

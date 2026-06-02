@@ -3,11 +3,12 @@ import { useState } from "react";
 import { useContext } from "react";
 import { CartContext } from "../context/CartContext";
 import { MdDelete } from "react-icons/md";
-
+import { Navigate, useNavigate } from "react-router-dom";
 const Cart = () => {
   const [isOpen, setOpen] = useState(true);
   const { products, total, increaseQuantity, decreaseQuantity, deleteProduct } =
     useContext(CartContext);
+  const navigate = useNavigate();
   return (
     isOpen && (
       <div className="w-80 h-full max-sm:w-40 absolute fixed bg-[gray] max-md:top-0 right-0 ">
@@ -15,7 +16,13 @@ const Cart = () => {
           {total > 0 ? (
             <>
               <p className="text-center mt-6 text-black">Total: {total} </p>
-              <button className="border mt-4 rounded-sm p-2 text-sm">
+              <button
+                className="border mt-4 rounded-sm p-2 text-sm"
+                onClick={() => {
+                  navigate("/checkout");
+                  setOpen(false);
+                }}
+              >
                 Proceed to Checkout
               </button>
             </>

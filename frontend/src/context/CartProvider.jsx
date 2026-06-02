@@ -62,6 +62,14 @@ const CartProvider = ({ children }) => {
     setProduct(products.filter((val) => val.id != product.id));
     setCount(count - 1);
   };
+  const clearCart = () => {
+    setProduct([]);
+    localStorage.removeItem("products");
+  };
+  const clearCount = () => {
+    setCount(0);
+    localStorage.removeItem("count");
+  };
   return (
     <CartContext.Provider
       value={{
@@ -72,6 +80,8 @@ const CartProvider = ({ children }) => {
         increaseQuantity,
         decreaseQuantity,
         deleteProduct,
+        clearCart,
+        clearCount,
       }}
     >
       {children}
