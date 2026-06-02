@@ -87,7 +87,7 @@ const Checkout = () => {
 
         <div className="mt-6">
           <label>
-            Order Summary:{" "}
+            Order Summary:{summa}
             {products.map((val) => (
               <p className="mt-2">qty: {val.quantity}</p>
             ))}

@@ -16,6 +16,7 @@ import AuthProvider from "./context/AuthProvider";
 import "./App.css";
 import CartProvider from "./context/CartProvider";
 import Checkout from "./pages/Checkout";
+import Orders from "./pages/Orders";
 function App() {
   const location = useLocation();
   return (
@@ -36,6 +37,7 @@ function App() {
               <Route path="/products" element={<Products />}></Route>
               <Route path="/product/:id/:slug" element={<Product />}></Route>
               <Route path="/checkout" element={<Checkout />}></Route>
+              <Route path="/orders" element={<Orders />}></Route>
             </Routes>
           </div>
         </CartProvider>
