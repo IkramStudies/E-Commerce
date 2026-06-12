@@ -19,6 +19,7 @@ import Checkout from "./pages/Checkout";
 import Orders from "./pages/Orders";
 function App() {
   const location = useLocation();
+
   return (
     <>
       <AuthProvider>

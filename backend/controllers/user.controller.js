@@ -98,9 +98,7 @@ export const registerUser = async (req, res) => {
 export const verifyEmail = async (req, res) => {
   try {
     const { email, otp } = req.body;
-
     const user = await User.findOne({ email });
-
     if (!user) {
       return res.status(404).json({
         status: false,

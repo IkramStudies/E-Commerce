@@ -36,7 +36,7 @@ const Products = () => {
   return (
     <>
       {loading ? (
-        <p className="text-center">Loading....</p>
+        <p className="text-center mt-10">Loading....</p>
       ) : (
         <>
           {location.pathname === "/products" && (

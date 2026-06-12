@@ -34,7 +34,6 @@ const VerifyEmail = () => {
     e.preventDefault();
 
     const payload = { email, otp };
-
     const data = await fetch("http://localhost:3000/verify-email", {
       method: "POST",
       headers: {
