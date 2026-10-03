@@ -7,8 +7,8 @@ const CartProvider = ({ children }) => {
     return storedCount ? parseInt(storedCount) : 0;
   });
   const [products, setProduct] = useState(() => {
-    const product = localStorage.getItem("products");
-    return product ? JSON.parse(product) : [];
+    const product = localStorage.getItem("products"); //"Get items through local storage and assign it to product
+    return product ? JSON.parse(product) : []; // parse product if it exists"
   });
   useEffect(() => {
     localStorage.setItem("count", count);
